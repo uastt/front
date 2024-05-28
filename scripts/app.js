@@ -14,6 +14,14 @@ stop.disabled = true;
 let audioCtx;
 const canvasCtx = canvas.getContext("2d");
 
+//get password from storage
+const globPasswordField = document.querySelector("#globPassword");
+globPasswordField.value = localStorage.getItem("globPassword");
+globPasswordField.addEventListener("change", function (e) {
+  console.log(e);
+  localStorage.setItem("globPassword", e.target.value);
+})
+
 // Main block for doing the audio recording
 if (navigator.mediaDevices.getUserMedia) {
   console.log("The mediaDevices.getUserMedia() method is supported.");
@@ -130,6 +138,8 @@ if (navigator.mediaDevices.getUserMedia) {
 
       const formData  = new FormData();
       formData.append("audiofile", blob, fileName);
+
+      formData.append("globPassword", globPasswordField.value);
 
       if (evt.type == 'file-upload') {
         clipLabel.textContent = fileName;
